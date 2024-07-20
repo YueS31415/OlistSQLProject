@@ -1,6 +1,5 @@
---Which cities/states are buying the most
---by amount paid
-WITH orders_with_value AS(
+/*1. Which cities and states generate the highest revenue and number of orders?*/
+WITH orders_with_value AS(      --create cte with order id and the total price
     SELECT order_id, SUM(payment_value) AS orderprice
     FROM order_payments
     GROUP BY order_id
@@ -10,23 +9,21 @@ FROM orders
 JOIN customers ON customers.customer_id=orders.customer_id
 JOIN orders_with_value ON orders_with_value.order_id=orders.order_id
 GROUP BY customer_city,customer_state
-ORDER BY totalrev DESC;
---by number of orders
+ORDER BY totalrev DESC;     --sort by revenue
+
 SELECT customer_city,customer_state,COUNT(order_id) AS totalorders
 FROM orders
 JOIN customers ON customers.customer_id=orders.customer_id
 GROUP BY customer_city,customer_state
-ORDER BY totalorders DESC;
+ORDER BY totalorders DESC;     --sort by the number of orders
 
 
---Which product categories are selling the most
---Which product categories are not selling
-
-WITH product_sold AS(
+/*2. Which product categories are the most popular, and which are not selling well?*/
+WITH product_sold AS(        --count the number of times each product is sold
     SELECT product_id,count(1) AS numsold
     FROM order_items
     GROUP BY product_id
-), producttranslation AS(
+), producttranslation AS(        --add english translations to products
     SELECT product_id,product_category_name_english
     FROM products
     LEFT JOIN product_category_name_translation AS pct ON pct.product_category_name=products.product_category_name
@@ -38,7 +35,8 @@ GROUP BY product_category_name_english
 ORDER BY SUM(numsold) DESC
 ;
 
---Relationship between time and orders?
+
+/*3. What is the relationship between time and revenue?*/
 WITH orders_with_value AS(
     SELECT order_payments.order_id, SUM(payment_value) AS orderprice
     FROM order_payments
@@ -52,6 +50,7 @@ JOIN orders_with_value ON orders_with_value.order_id=orders.order_id
 GROUP BY year,month
 ORDER BY year,month;
 
+/*4. When are customers most likely to place orders?*/
 WITH orders_with_value AS(
     SELECT order_payments.order_id, SUM(payment_value) AS orderprice
     FROM order_payments
@@ -69,7 +68,7 @@ FROM orders
 JOIN orders_with_value ON orders_with_value.order_id=orders.order_id
 GROUP BY timeofday;
 
---Customer behavior?
+
 SELECT customer_unique_id, COUNT(order_id)
 FROM customers
 LEFT JOIN orders ON orders.customer_id=customers.customer_id
@@ -77,7 +76,8 @@ GROUP BY customer_unique_id
 ORDER BY COUNT(order_id) DESC;
 
 
---deliverytime
+/*5. What's the average delivery time,
+and are there delayed packages?*/
 WITH deliverytable AS (
     SELECT 
         customer_city, customer_state,
