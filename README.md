@@ -4,6 +4,7 @@ An exploratory data analysis to gain insights into e-commerce in Brazil.
 ![Dashboard](visuals/dashboard.png)
 
 *Power BI Dashboard*
+SQL queries? Check them out here:[queries]()
 # Project Description
 This project leverages PostgreSQL and Power BI to analyze and gain insights into Brazil's e-commerce landscape. Using a real commercial dataset provided by Olist, Brazil's largest online department store, the analysis covers 100k orders from 2016-2018 across multiple marketplaces. The dataset includes detailed information on order status, price, payment, freight performance, customer location, product attributes, and customer reviews.
 
