@@ -9,7 +9,7 @@ This project leverages PostgreSQL and Power BI to analyze and gain insights into
 
 # Summary of Insights
 ### 1. Growing Trend 
-There is a growing trend in Brazilian e-commerce from 2016 to 2018. The sharp decrease in September 2018 is probably due to incomplete data or noise. Revenue peaked on Nov. 24, 2017, with a value of $152K, indicating the importance of Black Friday.
+Brazilian e-commerce experienced a growing trend from 2016 to 2018. The sharp decrease in September 2018 is likely due to incomplete data or noise. Revenue peaked at $152K on November 24, 2017, highlighting the significance of Black Friday.
 ![Trends](visuals\trends.png)
 ### 2. Customer Behavior
 Brazilians seem to prefer ordering online during weekday afternoons(12-18pm) and nights (18-24pm). Marketing and promotion plans can be made based on these characteristics.
