@@ -1,5 +1,5 @@
 # Brazilian E-Commerce EDA
-An exploratory data analysis to get insights from E-Commerce in Brazil.
+An exploratory data analysis to gain insights into e-Commerce in Brazil.
 
 ![Dashboard](visuals/dashboard.png)
 
