@@ -1,33 +1,33 @@
 COPY geolocation 
-FROM 'E:\YueS\SQL\OlistBrazilEcom\data\olist_geolocation_dataset.csv'
+FROM 'E:\YueS\SQL\OlistSQLProject\data\olist_geolocation_dataset.csv'
 WITH (FORMAT CSV, HEADER TRUE, DELIMITER ',', ENCODING 'UTF8');
 
 COPY customers 
-FROM 'E:\YueS\SQL\OlistBrazilEcom\data\olist_customers_dataset.csv'
+FROM 'E:\YueS\SQL\OlistSQLProject\data\olist_customers_dataset.csv'
 WITH (FORMAT CSV, HEADER TRUE, DELIMITER ',', ENCODING 'UTF8');
 
 COPY orders 
-FROM 'E:\YueS\SQL\OlistBrazilEcom\data\olist_orders_dataset.csv'
+FROM 'E:\YueS\SQL\OlistSQLProject\data\olist_orders_dataset.csv'
 WITH (FORMAT CSV, HEADER TRUE, DELIMITER ',', ENCODING 'UTF8');
 
-COPY order_payments FROM 'E:\YueS\SQL\OlistBrazilEcom\data\olist_order_payments_dataset.csv'
+COPY order_payments FROM 'E:\YueS\SQL\OlistSQLProject\data\olist_order_payments_dataset.csv'
 WITH (FORMAT CSV, HEADER TRUE, DELIMITER ',', ENCODING 'UTF8');
 
-COPY order_reviews FROM 'E:\YueS\SQL\OlistBrazilEcom\data\olist_order_reviews_dataset.csv'
+COPY order_reviews FROM 'E:\YueS\SQL\OlistSQLProject\data\olist_order_reviews_dataset.csv'
 WITH (FORMAT CSV, HEADER TRUE, DELIMITER ',', ENCODING 'UTF8');
 
 COPY product_category_name_translation 
-FROM 'E:\YueS\SQL\OlistBrazilEcom\data\product_category_name_translation.csv'
+FROM 'E:\YueS\SQL\OlistSQLProject\data\product_category_name_translation.csv'
 WITH (FORMAT CSV, HEADER TRUE, DELIMITER ',', ENCODING 'UTF8');
 
 COPY products 
-FROM 'E:\YueS\SQL\OlistBrazilEcom\data\olist_products_dataset.csv'
+FROM 'E:\YueS\SQL\OlistSQLProject\data\olist_products_dataset.csv'
 WITH (FORMAT CSV, HEADER TRUE, DELIMITER ',', ENCODING 'UTF8'); 
 
-COPY sellers FROM 'E:\YueS\SQL\OlistBrazilEcom\data\olist_sellers_dataset.csv'
+COPY sellers FROM 'E:\YueS\SQL\OlistSQLProject\data\olist_sellers_dataset.csv'
 WITH (FORMAT CSV, HEADER TRUE, DELIMITER ',', ENCODING 'UTF8'); 
 
-COPY order_items FROM 'E:\YueS\SQL\OlistBrazilEcom\data\olist_order_items_dataset.csv'
+COPY order_items FROM 'E:\YueS\SQL\OlistSQLProject\data\olist_order_items_dataset.csv'
 WITH (FORMAT CSV, HEADER TRUE, DELIMITER ',', ENCODING 'UTF8'); 
 
 --change datatype because the data shows date only
@@ -52,7 +52,7 @@ LIMIT 30;
 ALTER TABLE geolocation DROP id;
 
 /*
---the data has same coordinates and city name with different zipcode, not sure why
+--cannot create primary and foreign keys because the data has coordinates with different zipcodes
 SELECT *
 FROM   geolocation g1
 WHERE  EXISTS (
@@ -61,20 +61,20 @@ WHERE  EXISTS (
    AND    g1.ctid <> g2.ctid
    )
 ORDER BY g1.geolocation_lat,g1.geolocation_lng;
-
---cannot add primary and foreign keys
 ALTER TABLE geolocation ADD CONSTRAINT unique_geolocation_zipcode_prefix UNIQUE (geolocation_zipcode_prefix);
     ADD CONSTRAINT fk_orders_customers FOREIGN KEY (customer_id) REFERENCES customers (id);
 
---fuzzy search
+-- there are two versions of city names: one with ~, one without
+UPDATE geolocation
+SET geolocation_city='sao paulo'
+WHERE geolocation_city='são paulo';
+
+--sao paulo is not the only city with the above problem, don' know how to fix this yet.
+--fuzzy search?
 CREATE EXTENSION pg_trgm;
 SELECT geolocation_city FROM geolocation
 WHERE geolocation_city % 'san pablo' LIMIT 10;
 
---clean; don't know how to do this efficiently yet
-UPDATE geolocation
-SET geolocation_city='sao paulo'
-WHERE geolocation_city='são paulo';
 
 DROP TABLE if exists order_items cascade;
 */

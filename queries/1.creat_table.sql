@@ -5,7 +5,7 @@ CREATE TABLE geolocation(
     geolocation_lng FLOAT,
     geolocation_city VARCHAR(100),
     geolocation_state VARCHAR(100)
-    --PRIMARY KEY( geolocation_lat FLOAT,geolocation_lng FLOAT,)
+    --PRIMARY KEY( geolocation_lat FLOAT,geolocation_lng FLOAT) there are coordidates with multiple zipcodes
 );
 
 CREATE TABLE customers(

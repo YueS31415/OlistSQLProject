@@ -42,13 +42,15 @@ WITH orders_with_value AS(
     FROM order_payments
     GROUP BY order_payments.order_id
 )
-SELECT EXTRACT(MONTH FROM order_purchase_timestamp) AS month ,
+SELECT 
+    EXTRACT(MONTH FROM order_purchase_timestamp) AS month ,
     EXTRACT(YEAR FROM order_purchase_timestamp) AS year ,
     COUNT(orders.order_id) AS totalorders,SUM(orderprice) AS totalrev
 FROM orders
 JOIN orders_with_value ON orders_with_value.order_id=orders.order_id
 GROUP BY year,month
 ORDER BY year,month;
+
 
 /*4. When are customers most likely to place orders?*/
 WITH orders_with_value AS(
@@ -69,12 +71,6 @@ JOIN orders_with_value ON orders_with_value.order_id=orders.order_id
 GROUP BY timeofday;
 
 
-SELECT customer_unique_id, COUNT(order_id)
-FROM customers
-LEFT JOIN orders ON orders.customer_id=customers.customer_id
-GROUP BY customer_unique_id
-ORDER BY COUNT(order_id) DESC;
-
 
 /*5. What's the average delivery time,
 and are there delayed packages?*/
@@ -90,14 +86,8 @@ WITH deliverytable AS (
     JOIN customers ON customers.customer_id=orders.customer_id
     WHERE order_delivered_customer IS NOT NULL
 )
-/*SELECT 
+SELECT 
     AVG(deliverytime) AS avg_delivery,
     MAX(deliverytime) AS max_delivery,
     MIN(deliverytime) AS min_delivery
-FROM deliverytable;*/
-
-SELECT 
-    COUNT(deliverytime)/100000.0
-
-FROM deliverytable
-WHERE deliverytime>=13;
+FROM deliverytable;
