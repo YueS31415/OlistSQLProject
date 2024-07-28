@@ -21,7 +21,7 @@ In terms of the number of purchases, bed, bath, table, health and beauty, sports
 Most of the revenue comes from the southeast and south regions of Brazil, with the state of São Paulo contributing over 40% of the revenue and orders.
 ![Geo](visuals/geospatial.png)
 ### 5. Delivery Time
-The average delivery time is about 12 days, with a standard deviation of about 10 days. There are quite a few delayed packages, with delivery times ranging from 100 to 200 days.
+The median delivery time is about 10 days, with quite a few delayed packages, with delivery times ranging from 100 to 200 days.
 
 # Recommendations and Next Steps
 
